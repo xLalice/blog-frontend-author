@@ -14,6 +14,10 @@ const router = createBrowserRouter([
     errorElement: <div>404</div>,
     children: [
       {
+        index: true,
+        element: <PostsList />
+      },
+      {
         path: 'login',
         element: <Login />
       },
@@ -21,10 +25,6 @@ const router = createBrowserRouter([
         path: '/create-post',
         element: <CreatePost />
       },
-      {
-        path: '/posts',
-        element: <PostsList />
-      }
     ]
   }
 ])

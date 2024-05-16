@@ -1,16 +1,23 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        if (username === "admin" && password === "password") {
-            setError("");
-            console.log("Login successful");
-        } else {
+        try {
+            const response = await axios.post("https://blog-backend-api-production-2c23.up.railway.app/api/users/login", {
+                username,
+                password
+            });
+
+            sessionStorage.setItem("token", response.data.token);
+            sessionStorage.setItem("user", response.data.user);
+            alert("Login Successful");
+        } catch (error) {
             setError("Invalid username or password");
         }
     };
@@ -18,7 +25,7 @@ function Login() {
     return (
         <div className="container mx-auto mt-8">
             <h2 className="text-center text-2xl font-semibold mb-4">Login</h2>
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto">
+            <form onSubmit={handleLogin} className="max-w-md mx-auto">
                 <div className="mb-4">
                     <label htmlFor="username" className="block text-gray-700 font-semibold mb-2">Username</label>
                     <input

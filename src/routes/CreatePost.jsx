@@ -1,16 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
+import axiosInstance from '../utils/axiosInstance';
 import Tiptap from '../components/Tiptap';
 
 const CreatePostForm = () => {
     const { register, handleSubmit, formState: { errors }, setValue } = useForm({ 
-        defaultValues: { title: '', content: '', author: '' },
+        defaultValues: { title: '', content: '' },
         mode: 'onChange'
     });
 
-    const onSubmit = (data) => {
-        axios.post('https://blog-backend-api-production-2c23.up.railway.app/api/posts', data)
+    const onSubmit = async (data) => {
+        const token = sessionStorage.getItem('token');
+        const username = sessionStorage.getItem('user.username');
+        data.author = username;
+        console.log("Data: ", data);
+        console.log("Token: ", `Bearer ${token}`);
+        axiosInstance.post('https://blog-backend-api-production-2c23.up.railway.app/api/posts', data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
             .then(response => {
                 console.log('Post created successfully:', response.data);
             })
