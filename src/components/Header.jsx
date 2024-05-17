@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../provider/AuthProvider";
+
 
 export default function Header() {
+    const { userAuth } = useContext(AuthContext);
 
     return (
         <header className="py-4">
@@ -12,9 +15,9 @@ export default function Header() {
                 <Link to="/create-post" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-8 rounded">
                     Create Post
                 </Link>
-                <Link to="/login" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-auto rounded">
+                {!userAuth && <Link to="/login" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-auto rounded">
                     Login
-                </Link>
+                </Link>}
             </div>
         </header>
     )

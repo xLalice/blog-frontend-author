@@ -7,8 +7,6 @@ const PostsList = () => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const token = sessionStorage.getItem('token');
-
     useEffect(() => {
         axios.get('https://blog-backend-api-production-2c23.up.railway.app/api/posts')
             .then(response => {

@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import axiosInstance from '../utils/axiosInstance';
 import Tiptap from '../components/Tiptap';
 
-const CreatePostForm = () => {
+const CreatePost = () => {
     const { register, handleSubmit, formState: { errors }, setValue } = useForm({ 
         defaultValues: { title: '', content: '' },
         mode: 'onChange'
@@ -69,4 +69,4 @@ const CreatePostForm = () => {
     );
 };
 
-export default CreatePostForm;
+export default CreatePost;
