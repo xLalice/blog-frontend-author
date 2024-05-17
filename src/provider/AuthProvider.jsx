@@ -20,8 +20,10 @@ const AuthProvider = ({ children }) => {
 
         try {
             const response = await axios.post(url, { username, password });
-            const { token } = response.data;
+            const token = response.data.token;
+            const user = response.data.user;
             localStorage.setItem("token", token);
+            localStorage.setItem("user", JSON.stringify(user));
             setUserAuth(true);
         } catch (error) {
             setLoginErr(true);

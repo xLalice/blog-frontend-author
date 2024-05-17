@@ -21,25 +21,27 @@ const PostsList = () => {
 
     const handlePublish = (postId) => {
         console.log('Publishing post with ID:', postId);
+        setPosts(posts.map(post => post._id === postId ? { ...post, published: true } : post));
         axiosInstance.put(`https://blog-backend-api-production-2c23.up.railway.app/api/posts/${postId}/publish`)
             .then(response => {
                 console.log('Publish response:', response);
-                setPosts(posts.map(post => post.id === postId ? { ...post, published: true } : post));
             })
             .catch(error => {
                 console.error('Error publishing post:', error);
+                setPosts(posts.map(post => post._id === postId ? { ...post, published: false } : post));
             });
     };
 
     const handleUnpublish = (postId) => {
         console.log('Unpublishing post with ID:', postId);
+        setPosts(posts.map(post => post._id === postId ? { ...post, published: false } : post));
         axiosInstance.put(`https://blog-backend-api-production-2c23.up.railway.app/api/posts/${postId}/unpublish`)
             .then(response => {
                 console.log('Unpublish response:', response);
-                setPosts(posts.map(post => post.id === postId ? { ...post, published: false } : post));
             })
             .catch(error => {
                 console.error('Error unpublishing post:', error);
+                setPosts(posts.map(post => post._id === postId ? { ...post, published: true } : post));
             });
     };
 
