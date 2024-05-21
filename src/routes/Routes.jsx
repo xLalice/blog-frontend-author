@@ -7,6 +7,7 @@ import App from '../App'
 import  PostsList  from './PostsList';
 import Login from './Login';
 import CreatePost from './CreatePost';
+import EditPost from './EditPost';
 import PrivateRoute from './PrivateRoute';
 
 const router = createBrowserRouter([
@@ -35,6 +36,14 @@ const router = createBrowserRouter([
             element: (
               <PrivateRoute>
                 <CreatePost />
+              </PrivateRoute>
+            )
+          },
+          {
+            path: '/:postId/edit',
+            element: (
+              <PrivateRoute>
+                <EditPost/>
               </PrivateRoute>
             )
           }

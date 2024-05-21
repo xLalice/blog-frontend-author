@@ -4,33 +4,18 @@ import React from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Toolbar from './Toolbar';
-import Heading from "@tiptap/extension-heading";
-import BulletList from '@tiptap/extension-bullet-list';
-import OrderedList from '@tiptap/extension-ordered-list';
-import ListItem from '@tiptap/extension-list-item';
-import Document from '@tiptap/extension-document';
-import Paragraph from '@tiptap/extension-paragraph';
-import Text from '@tiptap/extension-text';
 
-const Tiptap = ({ onChange }) => {
+const Tiptap = ({ onChange, initialContent }) => {
     const editor = useEditor({
         extensions: [
-          StarterKit,
-          Heading.configure({
-            HTMLAttributes: {
-              class: "text-xl font-bold",
-              levels: [2],
-            }
-          }),
-          Document,
-          Paragraph, 
-          Text,  
+            StarterKit.configure({
+                heading: { HTMLAttributes: { class: "text-xl font-bold", levels: [2] } }
+            })
         ],
-        content: '',
+        content: initialContent,
         editorProps: {
             attributes: {
-              class:
-                "rounded-md border border-black min-h-[300px] border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50",
+                class: "rounded-md border border-black min-h-[300px] border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50",
             }
         },
         onUpdate: ({ editor }) => {

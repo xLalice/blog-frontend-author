@@ -29,10 +29,15 @@ const AuthProvider = ({ children }) => {
             setLoginErr(true);
         }
     };
+
+    const logout = () => {
+        localStorage.removeItem("token");
+        setUserAuth(false);
+    };
     
 
     return (
-        <AuthContext.Provider value={{ userAuth, login, loginErr }}>
+        <AuthContext.Provider value={{ userAuth, login, logout, loginErr }}>
             {children}
         </AuthContext.Provider>
     );

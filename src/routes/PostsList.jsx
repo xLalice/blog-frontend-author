@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import axiosInstance from '../utils/axiosInstance';
 import { ClipLoader } from 'react-spinners';
+import EditPost from './EditPost';
+import {Link} from 'react-router-dom';
 
 const PostsList = () => {
     const [posts, setPosts] = useState([]);
@@ -45,6 +47,30 @@ const PostsList = () => {
             });
     };
 
+    const editPost = (postId) => {
+        console.log('Editing post with ID:', postId);
+        axiosInstance.put(`https://blog-backend-api-production-2c23.up.railway.app/api/posts/${postId}`)
+            .then(response => {
+                const updatedPost = response.data;
+                setPosts(posts.map(post => post._id === postId ? updatedPost : post));
+            })
+            .catch(error => {
+                console.error('Error editing post:', error);
+            });
+    };
+    
+    const deletePost = (postId) => {
+        console.log('Deleting post with ID:', postId);
+        axiosInstance.delete(`https://blog-backend-api-production-2c23.up.railway.app/api/posts/${postId}`)
+            .then(response => {
+                setPosts(posts.filter(post => post._id !== postId));
+            })
+            .catch(error => {
+                console.error('Error deleting post:', error);
+            });
+    }
+    
+
     return (
         <div className="container mx-auto">
             <h1 className="text-3xl font-bold mb-4">List of Posts</h1>
@@ -55,7 +81,7 @@ const PostsList = () => {
             ) : (
                 <ul>
                     {posts.map(post => (
-                        <li key={post.id} className="border-b border-gray-200 py-4 flex justify-between items-center">
+                        <li key={post._id} className="border-b border-gray-200 py-4 flex justify-between items-center">
                             <div>
                                 <h2 className="text-xl font-semibold">{post.title}</h2>
                                 <p className="text-gray-500">{post.published ? 'Published' : 'Unpublished'}</p>
@@ -66,6 +92,9 @@ const PostsList = () => {
                                 ) : (
                                     <button onClick={() => handlePublish(post._id)} className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Publish</button>
                                 )}
+
+                                <Link to={`/${post._id}/edit`} className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded ml-2">Edit</Link>
+                                <button onClick={() => deletePost(post._id)} className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded ml-2">Delete</button>
                             </div>
                         </li>
                     ))}
