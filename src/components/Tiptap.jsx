@@ -1,21 +1,20 @@
-"use client"
-
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Toolbar from './Toolbar';
 
-const Tiptap = ({ onChange, initialContent }) => {
+const Tiptap = ({ onChange, initialContent, editable = true }) => {
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
-                heading: { HTMLAttributes: { class: "text-xl font-bold", levels: [2] } }
+                heading: { HTMLAttributes: { class: 'text-xl font-bold', levels: [2] } }
             })
         ],
         content: initialContent,
+        editable: editable,
         editorProps: {
             attributes: {
-                class: "rounded-md border border-black min-h-[300px] border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50",
+                class: `prose prose-lg max-w-none p-4  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${editable && 'border border-gray-300'}`,
             }
         },
         onUpdate: ({ editor }) => {
@@ -24,9 +23,16 @@ const Tiptap = ({ onChange, initialContent }) => {
         },
     });
 
+    // Update editor content when initialContent changes
+    useEffect(() => {
+        if (editor && initialContent !== editor.getHTML()) {
+            editor.commands.setContent(initialContent);
+        }
+    }, [initialContent, editor]);
+
     return (
-        <div className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500">
-            <Toolbar editor={editor} />
+        <div className='text-center p-4 rounded-md shadow-sm'>
+            {editable && <Toolbar editor={editor} />}
             <EditorContent editor={editor} />
         </div>
     );

@@ -9,6 +9,7 @@ import Login from './Login';
 import CreatePost from './CreatePost';
 import EditPost from './EditPost';
 import PrivateRoute from './PrivateRoute';
+import PostPage from './PostPage';
 
 const router = createBrowserRouter([
     {
@@ -40,10 +41,18 @@ const router = createBrowserRouter([
             )
           },
           {
-            path: '/:postId/edit',
+            path: '/posts/:postId/edit',
             element: (
               <PrivateRoute>
                 <EditPost/>
+              </PrivateRoute>
+            )
+          },
+          {
+            path: '/posts/:postId/',
+            element: (
+              <PrivateRoute>
+                <PostPage />
               </PrivateRoute>
             )
           }

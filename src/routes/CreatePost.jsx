@@ -17,7 +17,6 @@ const CreatePost = ({ postId, initialTitle = '', initialContent = '', onSave }) 
 
     const onSubmit = async (data) => {
         const user = JSON.parse(localStorage.getItem('user'));
-        const token = localStorage.getItem('token');
         data.author = user.id;
 
         if (postId) {
@@ -42,6 +41,7 @@ const CreatePost = ({ postId, initialTitle = '', initialContent = '', onSave }) 
         }
     };
 
+    
     return (
         <div className="container mx-auto">
             <h1 className="text-3xl font-bold mb-4">{postId ? 'Edit' : 'Create'} Post</h1>
@@ -52,7 +52,7 @@ const CreatePost = ({ postId, initialTitle = '', initialContent = '', onSave }) 
                         type="text"
                         id="title"
                         {...register('title', { required: true })}
-                        className="w-full text-black border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
+                        className="bg-transparent w-full text-white border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
                         required
                     />
                     {errors.title && <p className="text-red-500">Title is required.</p>}
